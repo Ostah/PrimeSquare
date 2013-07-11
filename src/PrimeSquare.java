@@ -24,15 +24,13 @@ public class PrimeSquare {
         long count = 0;
         while((newPrime = primes.getNext()) > 0 && newPrime < size*size){
 
-            pos = findIn2DArray(ulamArray,newPrime);
             count++;
-
+            pos = findIn2DArray(ulamArray,newPrime);
             if(pos.getX()>= valueArray.length || pos.getY() >= valueArray.length) return;
             valueArray[(int)pos.getX()][(int)pos.getY()] = true;
+
             if(count % 100 == 0) window.frame.repaint();
         }
-
-
     }
 
     void init(){
@@ -43,8 +41,6 @@ public class PrimeSquare {
         window.frame.setLocationRelativeTo(null);
         window.frame.setVisible(true);
 
-
-
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 valueArray[i][j] = false;
@@ -53,35 +49,24 @@ public class PrimeSquare {
     }
 
     public static void main(String[] args) {
-
         PrimeSquare app= new PrimeSquare();
-
         app.init();
-
         app.work();
-
-
-
     }
 
     public static Point findIn2DArray(int[][] array, int what){
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j <array[i].length ; j++) {
                 if(array[i][j]==what){
-
-                   // System.out.println("What: " + what + " size: "+ array.length +" "+ outX + " "+ outY);
                     return new Point(i,j);
                 }
             }
         }
-
-        System.out.println("Not Found!");
-        System.out.println("What: " + what + " size: "+ array.length);
-        System.out.flush();
         return new Point(-1,-1);
     }
 
     public static int[][] getUlamArray(int n){
+
         //init
         int[][] array = new int[2*n+1][2*n+1];
         for (int i = 0; i < 2*n+1; i++) {
@@ -112,13 +97,12 @@ public class PrimeSquare {
         }
 
         // fill bottom half
-        for(int r = n; r > 0; r--) {
+        for(int r = n; r > 0; r--){
             for (int c = -n; c <= n; c++) {
                 if (c < -r)  array[r + n][c + n] = r - c + array[c + n][c + n];
                 if (c > r) array[r + n][c + n] =  -(r + c) + array[n - c][c + n];
             }
         }
-
         return  array;
     }
 

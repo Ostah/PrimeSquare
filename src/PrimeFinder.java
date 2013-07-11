@@ -1,28 +1,15 @@
-/**
- * Created with IntelliJ IDEA.
- * User: Ostah
- * Date: 11.07.13
- * Time: 12:18
- * To change this template use File | Settings | File Templates.
- */
 public class PrimeFinder {
-    Boolean[] primes;
 
+    Boolean[] primes;
     int lastPrime = -1;
 
     PrimeFinder(int size){
         primes = new Boolean[size];
-
-        for(int i=0; i<primes.length; i++){
-            primes[i] = new Boolean(true);
-        }
-
+        for(int i=0; i<primes.length; i++)  primes[i] = new Boolean(true);
     }
 
     private void invalidate(int nr){
-        for(int i = 2; i*nr < primes.length ; i++){
-            primes[i*nr] = false;
-        }
+        for(int i = 2; i*nr < primes.length ; i++) primes[i*nr] = false;
     }
 
     int getNext(){
@@ -41,8 +28,7 @@ public class PrimeFinder {
                 }
             }
         }
-
-       invalidate(lastPrime);
+        invalidate(lastPrime);
         return  lastPrime;
     }
 }

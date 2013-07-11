@@ -22,9 +22,7 @@ public class Window extends JPanel {
         frame.setSize(x,y);
         frame.add(this);
         paintColor = paint;
-
     }
-
 
     private void doDrawing(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
