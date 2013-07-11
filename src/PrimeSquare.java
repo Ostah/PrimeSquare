@@ -17,7 +17,6 @@ public class PrimeSquare {
         Boolean[][] valueArray = new Boolean[size][size];
         PrimeFinder primes = new PrimeFinder(size*size);
 
-        //System.out.println(Arrays.deepToString(getUlamArray(3)));
         printArray(getUlamArray(3))  ;
 
 //        for (int i = 0; i < size; i++) {
@@ -42,7 +41,6 @@ public class PrimeSquare {
     }
 
     public static int[][] getUlamArray(int n){
-
         //init
         int[][] array = new int[2*n+1][2*n+1];
         for (int i = 0; i < 2*n+1; i++) {
@@ -72,7 +70,14 @@ public class PrimeSquare {
             for(int j = 1; j <= 2*(int)Math.abs(i); j++) array[i+n][i+n-j]= array[i+n][i+n-j+1]-1 ;
         }
 
-        int k = 2+2;
+        // fill bottom half
+        for(int r = n; r > 0; r--) {
+            for (int c = -n; c <= n; c++) {
+                if (c < -r)  array[r + n][c + n] = r - c + array[c + n][c + n];
+                if (c > r) array[r + n][c + n] =  -(r + c) + array[n - c][c + n];
+            }
+        }
+
         return  array;
     }
 
