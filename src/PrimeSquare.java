@@ -21,14 +21,15 @@ public class PrimeSquare {
     void work(){
         int newPrime;
         Point pos;
+        long count = 0;
         while((newPrime = primes.getNext()) > 0 && newPrime < size*size){
-            pos = findIn2DArray(ulamArray,newPrime);
 
-          //  System.out.println("x: " + x + " y: " + y + " %: "+newPrime%size + " newprime: "+newPrime);
-           // System.out.println("x: " + x + " y: "+ y);
+            pos = findIn2DArray(ulamArray,newPrime);
+            count++;
+
             if(pos.getX()>= valueArray.length || pos.getY() >= valueArray.length) return;
             valueArray[(int)pos.getX()][(int)pos.getY()] = true;
-            window.frame.repaint();
+            if(count % 100 == 0) window.frame.repaint();
         }
 
 
