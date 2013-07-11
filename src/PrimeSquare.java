@@ -1,7 +1,12 @@
+import java.awt.*;
 
 public class PrimeSquare {
 
-    final static int size = 800;
+    final static int size = 900;
+    Boolean[][] valueArray;
+    int[][] ulamArray;
+    PrimeFinder primes;
+    Window window;
 
     public static void printArray(int[][] array){
         for(int[] i : array){
@@ -12,32 +17,67 @@ public class PrimeSquare {
         }
         System.out.flush();
     }
+
+    void work(){
+        int newPrime;
+        Point pos;
+        while((newPrime = primes.getNext()) > 0 && newPrime < size*size){
+            pos = findIn2DArray(ulamArray,newPrime);
+
+          //  System.out.println("x: " + x + " y: " + y + " %: "+newPrime%size + " newprime: "+newPrime);
+           // System.out.println("x: " + x + " y: "+ y);
+            if(pos.getX()>= valueArray.length || pos.getY() >= valueArray.length) return;
+            valueArray[(int)pos.getX()][(int)pos.getY()] = true;
+            window.frame.repaint();
+        }
+
+
+    }
+
+    void init(){
+        valueArray = new Boolean[size][size];
+        ulamArray = getUlamArray(size/2+1);
+        primes = new PrimeFinder(size*size);
+        window = new Window(size,size, Color.WHITE, Color.BLACK, "Prime Square", valueArray);
+        window.frame.setLocationRelativeTo(null);
+        window.frame.setVisible(true);
+
+
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                valueArray[i][j] = false;
+            }
+        }
+    }
+
     public static void main(String[] args) {
 
-        Boolean[][] valueArray = new Boolean[size][size];
-        PrimeFinder primes = new PrimeFinder(size*size);
+        PrimeSquare app= new PrimeSquare();
 
-        printArray(getUlamArray(3))  ;
+        app.init();
 
-//        for (int i = 0; i < size; i++) {
-//            for (int j = 0; j < size; j++) {
-//               valueArray[i][j] = false;
-//            }
-//        }
-//
-//        Window window = new Window(size,size, Color.WHITE, "Prime Square", valueArray);
-//        window.frame.setVisible(true);
-//
-//        int newPrime = -666;
-//        while((newPrime = primes.getNext()) > 0 && newPrime < size*size){
-//            int x =   newPrime/size   ;
-//            int y =   newPrime%size;
-//
-//            System.out.println("x: " + x + " y: " + y + " %: "+newPrime%size + " newprime: "+newPrime);
-//            valueArray[x][y] = true;
-//        }
-//        window.invalidate();
-//        window.validate();
+        app.work();
+
+
+
+    }
+
+    public static Point findIn2DArray(int[][] array, int what){
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j <array[i].length ; j++) {
+                if(array[i][j]==what){
+
+                   // System.out.println("What: " + what + " size: "+ array.length +" "+ outX + " "+ outY);
+                    return new Point(i,j);
+                }
+            }
+        }
+
+        System.out.println("Not Found!");
+        System.out.println("What: " + what + " size: "+ array.length);
+        System.out.flush();
+        return new Point(-1,-1);
     }
 
     public static int[][] getUlamArray(int n){
@@ -53,7 +93,7 @@ public class PrimeSquare {
         // upside pyramid
         for(int i = -1; i>=-n; i--){
                 array[i+n][i+n] = (2*i)*(2*i) + 1;
-                for(int j = 1; j <= 2*(int)Math.abs(i); j++) array[i+n][i+n+j]= array[i+n][i+n+j-1]-1 ;
+                for(int j = 1; j <= 2*Math.abs(i); j++) array[i+n][i+n+j]= array[i+n][i+n+j-1]-1 ;
         }
 
         // fill top half
@@ -67,7 +107,7 @@ public class PrimeSquare {
         //down piramid
         for(int i = 1; i<=n; i++){
             array[i+n][i+n] = (int)Math.pow(2*i+1,2);
-            for(int j = 1; j <= 2*(int)Math.abs(i); j++) array[i+n][i+n-j]= array[i+n][i+n-j+1]-1 ;
+            for(int j = 1; j <= 2*Math.abs(i); j++) array[i+n][i+n-j]= array[i+n][i+n-j+1]-1 ;
         }
 
         // fill bottom half
